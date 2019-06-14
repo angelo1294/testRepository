@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<SessionTemplate version="7.2.0.201811011532">
-    <baseApplication>com.fnfr.itest.applications.webservices.restful</baseApplication>
-    <sessionProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulSessionProperties" url="$localHost" url.inherit="false"/>
-    <responseLibrary inherit="false">project://tests/</responseLibrary>
-    <formMapLibrary inherit="false">project://tests/</formMapLibrary>
-    <sessionClassTestCase inherit="false">project://tests/session_profiles/QC.fftc</sessionClassTestCase>
-    <isReferenceProfile>true</isReferenceProfile>
-</SessionTemplate>

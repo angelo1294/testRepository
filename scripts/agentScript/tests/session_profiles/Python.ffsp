@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<SessionTemplate version="7.2.0.201811011532">
-    <baseApplication>com.fnfr.svt.applications.python</baseApplication>
-    <sessionProperties type="com.fnfr.svt.applications.python.PythonSessionProperties"/>
-    <responseLibrary inherit="false">project://tests/</responseLibrary>
-    <formMapLibrary inherit="false">project://tests/</formMapLibrary>
-    <language>Python</language>
-</SessionTemplate>
