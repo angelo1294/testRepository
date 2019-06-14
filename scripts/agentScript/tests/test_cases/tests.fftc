@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<testCase version="7.2.0.201811011532">
+    <procedures>
+        <item name="main">
+            <steps>
+                <item guid="a67c296c-5a61-4e97-bc9b-e3cf8bb97c1b" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set vmConf &quot;\\ndfdsfgdsfsd\\ndfvdssdfds\\n&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="555e0f61-3ac6-43b8-8b7c-99f887c184ba" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>string map {&quot;\\n&quot; &quot;&quot;} $vmConf</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+        </item>
+    </procedures>
+</testCase>

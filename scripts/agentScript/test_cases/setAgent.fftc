@@ -1,0 +1,449 @@
+<?xml version="1.0"?>
+<testCase version="7.3.0.201902180253">
+    <general>
+        <owner>aandronache</owner>
+    </general>
+    <procedures>
+        <item name="main">
+            <steps>
+                <item guid="745bf824-25c3-4a3c-9464-679510709e4b" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Set local variables</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="29fb233e-4ea2-4fb5-ae31-23df7ec38d1d" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set reservationId [velocity reservationId]</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="70546efd-d819-405e-9617-167ba65d1715" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set localHost [velocity url]</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="0c71df11-21db-403a-9b09-17e0b31e8761" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Get list of devices</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="00f56966-4efa-4663-9e92-54552200bcb1" action="comment" useFieldsInCommand="false">
+                            <command>
+                                <body>Open session</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="78c6d5e1-11fb-452d-a43c-c8e9c83df608" action="open" session="REST" useFieldsInCommand="false">
+                                    <command>
+                                        <body>project://setAgent/session_profiles/REST.ffsp</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.OpenStepPropertyGroup">
+                                        <stepProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        <sessionProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulSessionProperties" url="$localHost" url.inherit="false"/>
+                                        <sessionClass type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        <sessionVersion type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                    </applicationProperties>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="aa63beeb-a3be-4680-b763-5aa8c5228cb3" action="comment" useFieldsInCommand="false">
+                            <command>
+                                <body>Get inventory IDs of reserved resources</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="7314f0ac-66e6-406a-936a-f4e5a8c0b56c" action="GET" session="REST">
+                                    <command>
+                                        <body>api/reservation/v11/reservation/$reservationId/resources</body>
+                                    </command>
+                                    <postProcessing>
+                                        <analysisRules>
+                                            <item>
+                                                <extractorInfo extractorType="query">
+                                                    <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                                        <query>mapped/Json/resources/item/inventoryResourceId</query>
+                                                    </extractorProperties>
+                                                </extractorInfo>
+                                                <processorInfo ruleType="store">
+                                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                        <storageLocation>idList</storageLocation>
+                                                        <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                        <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                    </ruleProperties>
+                                                </processorInfo>
+                                            </item>
+                                        </analysisRules>
+                                    </postProcessing>
+                                    <applicationProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulInvokeProperties" action="api/reservation/v11/reservation/$reservationId/resources" action.inherit="false">
+                                        <authentication transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.AuthenticationProperties" authenticationType="Basic" authenticationType.inherit="false" user="spirent" user.inherit="false" password.masked="true" password="SrqvrrOjrgE=" password.inherit="false" acceptAllCertificates="true" acceptAllCertificates.inherit="false"/>
+                                    </applicationProperties>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="1e86e311-7d5a-4790-bb26-96b16407103a" action="comment" useFieldsInCommand="false">
+                            <command>
+                                <body>Get addresses of resources</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="abac1757-c7d7-404e-841e-81ded83d1602" action="foreach" useFieldsInCommand="false">
+                                    <command>
+                                        <body>i $idList</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="216c38c4-41f8-41d6-9b4f-0af260ad8cc1" action="GET" session="REST">
+                                            <command>
+                                                <body>api/inventory/v8/device/$i</body>
+                                            </command>
+                                            <postProcessing>
+                                                <analysisRules>
+                                                    <item>
+                                                        <extractorInfo extractorType="query">
+                                                            <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                                                <query>mapped/Json/properties/item[name=&quot;ipAddress&quot;]/value</query>
+                                                            </extractorProperties>
+                                                        </extractorInfo>
+                                                        <processorInfo ruleType="store">
+                                                            <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                <storageLocation>VMAddress</storageLocation>
+                                                                <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                            </ruleProperties>
+                                                        </processorInfo>
+                                                    </item>
+                                                </analysisRules>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulInvokeProperties" action="api/inventory/v8/device/$i" action.inherit="false">
+                                                <authentication transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.AuthenticationProperties" authenticationType="Basic" authenticationType.inherit="false" user="spirent" user.inherit="false" password.masked="true" password="SrqvrrOjrgE=" password.inherit="false" acceptAllCertificates="true" acceptAllCertificates.inherit="false"/>
+                                            </applicationProperties>
+                                        </item>
+                                        <item guid="c4fc7a05-a200-4b1e-8936-ec96ab3cd8d5" action="eval" useFieldsInCommand="false">
+                                            <command>
+                                                <body>lappend addressList $VMAddress</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="9505ed2d-f2f9-48c8-966e-7ee5d172e975" action="comment" useFieldsInCommand="false">
+                            <command>
+                                <body>Close session</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="5719e46d-9a66-4ebf-82af-91c2b8627215" action="close" session="REST">
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="5b9f9f70-28b1-4fc1-a871-81c22be57e5f" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Find Velocity and Agent VMs</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="2f142096-f5ac-4460-8dbb-0a27a8ccdf0c" action="foreach" useFieldsInCommand="false">
+                            <command>
+                                <body>vmHost $addressList</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="187323eb-e996-4a37-9b3d-2928875e5c10" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Open session</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="a4090bbb-68c5-4692-af25-378647c12bff" action="open" session="SSH1" useFieldsInCommand="false">
+                                            <command>
+                                                <body>project://setAgent/session_profiles/SSH.ffsp</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.OpenStepPropertyGroup">
+                                                <stepProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties">
+                                                    <promptProperties>
+                                                        <alsoUseSessionPrompts inherit="false" defaultValue=""/>
+                                                    </promptProperties>
+                                                    <completionProperties>
+                                                        <promptExtraction inherit="false">ANYWHERE</promptExtraction>
+                                                    </completionProperties>
+                                                </stepProperties>
+                                                <sessionProperties type="com.fnfr.svt.applications.ssh.documents.SSHProperties">
+                                                    <ipAddress inherit="false">$vmHost</ipAddress>
+                                                </sessionProperties>
+                                                <sessionClass type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                <sessionVersion type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                            </applicationProperties>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="2f3e02f5-071e-452c-b837-7a7e013911f8" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Get product name and set variables</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="a0363ead-5032-4155-94c2-56668f840745" action="command" session="SSH1">
+                                            <command>
+                                                <body>cat /data/conftool/conftool.json</body>
+                                            </command>
+                                            <postProcessing>
+                                                <storeResponseAt>vmConf</storeResponseAt>
+                                                <storeResponseText>true</storeResponseText>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                        <item guid="6c9bf2c9-c9e5-4ee0-96a9-04b0ee064144" action="eval" useFieldsInCommand="false">
+                                            <command>
+                                                <body>string map {&quot;\\n&quot; &quot;&quot;} $vmConf</body>
+                                            </command>
+                                            <postProcessing>
+                                                <analysisRules>
+                                                    <item>
+                                                        <extractorInfo extractorType="query">
+                                                            <extractorProperties type="com.fnfr.svt.mapping.execution.extractors.QueryDataExtractorPropertyGroup">
+                                                                <query>mapped/Json/VM_PRODUCT_NAME</query>
+                                                            </extractorProperties>
+                                                        </extractorInfo>
+                                                        <processorInfo ruleType="store">
+                                                            <ruleProperties type="com.fnfr.svt.execution.builtin.processors.StoreProcessorPropertyGroup">
+                                                                <storageLocation>productName</storageLocation>
+                                                                <responseValue type="com.fnfr.documents.PropertyBoolean">false</responseValue>
+                                                                <variable type="com.fnfr.documents.PropertyBoolean">true</variable>
+                                                            </ruleProperties>
+                                                        </processorInfo>
+                                                    </item>
+                                                </analysisRules>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="da09a881-522f-42e6-9982-6ba5f5328764" action="eval" useFieldsInCommand="false">
+                                            <command>
+                                                <body>puts $productName</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="b3e9cecd-e83f-498e-bf6d-ca415fe90cb8" action="if" useFieldsInCommand="false">
+                                            <command>
+                                                <body>$productName == &quot;Velocity&quot;</body>
+                                            </command>
+                                            <nestedSteps>
+                                                <item guid="c1c83eaf-8fb5-4534-b8b9-ed6597cc98d2" action="then" useFieldsInCommand="false">
+                                                    <nestedSteps>
+                                                        <item guid="f6f3ece1-55a7-42df-a163-acd6689e4d16" action="eval" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>lappend velHost $vmHost</body>
+                                                            </command>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                                <item guid="924f8395-0cf7-4af8-a21a-77b9b8248453" action="elseif" useFieldsInCommand="false">
+                                                    <command>
+                                                        <body>$productName == &quot;VelocityAgent&quot;</body>
+                                                    </command>
+                                                    <nestedSteps>
+                                                        <item guid="d3ffd4ec-0237-4189-a5d4-91d5a11b81bc" action="eval" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>lappend agentList $vmHost</body>
+                                                            </command>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                                <item guid="0f6b4147-d1ca-4327-9f19-5c0548246f66" action="elseif" useFieldsInCommand="false">
+                                                    <command>
+                                                        <body>$productName == &quot;iTE&quot;</body>
+                                                    </command>
+                                                    <nestedSteps>
+                                                        <item guid="5769432e-9c28-47fc-ac26-e924681b3111" action="eval" useFieldsInCommand="false">
+                                                            <command>
+                                                                <body>lappend iteList $vmHost</body>
+                                                            </command>
+                                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                        </item>
+                                                    </nestedSteps>
+                                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                </item>
+                                            </nestedSteps>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="1d2837f6-b7e1-4622-8995-9ebcfe6d9e55" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Close session</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="118e23b3-61f8-4772-a420-734e13223ecf" action="close" session="SSH1">
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="5c23738e-b23f-4c6c-a50d-e6fc8cb11bce" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Check length of Velocity VM list</body>
+                    </command>
+                    <postProcessing>
+                        <analysisRules>
+                            <item>
+                                <extractorInfo extractorType="none">
+                                    <extractorProperties type="com.fnfr.svt.documents.EmptyExtractorPropertyGroup"/>
+                                </extractorInfo>
+                                <processorInfo ruleType="assert">
+                                    <ruleProperties type="com.fnfr.svt.execution.builtin.processors.AssertionPropertyGroup">
+                                        <expression>[llength $velHost] ==1</expression>
+                                        <actionsWhenTrue>
+                                            <item actionId="DeclareExecutionIssue">
+                                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup" severity="OK">
+                                                    <message>{auto_message_true}</message>
+                                                </actionProperties>
+                                            </item>
+                                            <item actionId="PassTestIfNotAlreadyFailed">
+                                                <actionProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                            </item>
+                                        </actionsWhenTrue>
+                                        <actionsWhenFalse>
+                                            <item actionId="DeclareExecutionIssue">
+                                                <actionProperties type="com.fnfr.svt.execution.builtin.actions.ExecutionIssuePropertyGroup">
+                                                    <message>None or more than 1 Velocity VMs were found!</message>
+                                                </actionProperties>
+                                            </item>
+                                            <item actionId="FailTest">
+                                                <actionProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                            </item>
+                                        </actionsWhenFalse>
+                                    </ruleProperties>
+                                </processorInfo>
+                            </item>
+                        </analysisRules>
+                    </postProcessing>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="855b4bf2-b932-4865-8a47-2d4202602d40" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>For each detected agent</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="ca1419d4-f3ed-4a9e-971e-4fba322d7551" action="foreach" useFieldsInCommand="false">
+                            <command>
+                                <body>agentHost $agentList</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="0bae7f9d-749c-4dea-8b12-646e3fc41e73" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Open session</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="9ad1ebf4-242c-48d6-868c-c00628e80373" action="open" session="SSH2" useFieldsInCommand="false">
+                                            <command>
+                                                <body>project://setAgent/session_profiles/SSH.ffsp</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.OpenStepPropertyGroup">
+                                                <stepProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties">
+                                                    <promptProperties>
+                                                        <alsoUseSessionPrompts inherit="false" defaultValue=""/>
+                                                    </promptProperties>
+                                                    <completionProperties>
+                                                        <promptExtraction inherit="false">ANYWHERE</promptExtraction>
+                                                    </completionProperties>
+                                                </stepProperties>
+                                                <sessionProperties type="com.fnfr.svt.applications.ssh.documents.SSHProperties"/>
+                                                <sessionClass type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                                <sessionVersion type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                            </applicationProperties>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="655bfa9e-faca-45bd-ac8c-e453dc621fd3" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Get and modify initial config</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="0ad9f22d-6056-453d-b1db-4907c6d0179b" action="command" session="SSH2">
+                                            <command>
+                                                <body>cat /data/conftool/conftool.json</body>
+                                            </command>
+                                            <postProcessing>
+                                                <storeResponseAt>agentConf</storeResponseAt>
+                                                <storeResponseText>true</storeResponseText>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                        <item guid="4c56689d-f488-4fe0-a693-7a96f7b42a2c" action="eval" useFieldsInCommand="false">
+                                            <command>
+                                                <body>puts $agentConf</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                        </item>
+                                        <item guid="074cd7d7-ca8d-412d-ae0e-8635f0e069a7" action="json" useFieldsInCommand="false">
+                                            <command>
+                                                <body>-action setJsonValue -editResponseStructure false -documentName agentConf -pathValue {&quot;VELOCITY_HOST&quot;:&quot;$velHost&quot;}</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.execution.builtin.json.JsonPropertiesGroup">
+                                                <action inherit="false">setJsonValue</action>
+                                                <pathValue inherit="false" sub="true">{&quot;VELOCITY_HOST&quot;:&quot;$velHost&quot;}</pathValue>
+                                                <documentName inherit="false">agentConf</documentName>
+                                            </applicationProperties>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="38e66d00-b970-4ac2-b352-e96d7dea0bdd" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Apply and save changes</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="7101afdb-7dfa-4daf-8de4-34873d2c7ced" action="command" session="SSH2">
+                                            <command>
+                                                <body>echo &apos;$agentConf&apos; &gt; /data/conftool/conftool.json</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                        <item guid="c713ae81-d6fb-4903-a065-8f2ccb03de60" action="command" session="SSH2">
+                                            <command>
+                                                <body>reboot</body>
+                                            </command>
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="25302bc9-07c3-48af-a092-9b7b039ca352" action="comment" useFieldsInCommand="false">
+                                    <command>
+                                        <body>Close session</body>
+                                    </command>
+                                    <nestedSteps>
+                                        <item guid="fddb9471-b1ef-42c1-9885-2d61a0f0fc55" action="close" session="SSH2">
+                                            <applicationProperties type="com.fnfr.svt.editors.terminal.documents.StepDefaultProperties"/>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+        </item>
+    </procedures>
+</testCase>

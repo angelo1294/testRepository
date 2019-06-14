@@ -1,0 +1,378 @@
+<?xml version="1.0"?>
+<testCase version="7.2.0.201811011532">
+    <general>
+        <sessionClass includeTestCase="true" sessionType="project://tests/session_profiles/REST.ffsp"/>
+    </general>
+    <procedures>
+        <item name="main">
+            <steps>
+                <item guid="a25e1def-7545-4fb3-b6ef-d88e2f99b9be" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Nothing</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+        </item>
+        <item name="GetReservations" isPublic="true">
+            <steps>
+                <item guid="6d1dfc42-be58-4c54-8906-bf37a5cf32f2" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Set path</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="bb2c197a-0f9c-428a-a7ca-d6b8fc411310" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set path [param reservation_service/path]reservations</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="ab9b9842-9a9c-4227-ae5e-fce593df7cad" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Build Command</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="cd0fd0f8-7961-43dc-aefc-1658ce105082" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set has_options &quot;?&quot;</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="31706cde-b3e3-4c03-af42-ff1f79f11a9e" action="call" useFieldsInCommand="false">
+                            <command>
+                                <body>HasOptions -has_options $has_options -pageable $pageable -filterable $filterable -get_cmd $path -searchString $searchString -startAfter $startAfter -endBefore $endBefore</body>
+                            </command>
+                            <postProcessing>
+                                <storeResponseAt>add_options</storeResponseAt>
+                                <storeResponseText>true</storeResponseText>
+                            </postProcessing>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                        <item guid="d4e74ca4-9d5e-4831-99e6-716767a9b91f" action="eval" useFieldsInCommand="false">
+                            <command>
+                                <body>set path $path$add_options</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="9e59eaf7-8c05-4339-ba12-c93c1f429207" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>GET request</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="12d72ec4-e20e-4e76-9133-948373dc13dc" action="if" useFieldsInCommand="false">
+                            <command>
+                                <body>$approverId ne &quot;NULL&quot;</body>
+                            </command>
+                            <nestedSteps>
+                                <item guid="0c41a3af-6062-401c-bfb2-3c1293e811ba" action="then" useFieldsInCommand="false">
+                                    <nestedSteps>
+                                        <item guid="0733f69b-2590-4d84-9d14-fc8381bda179" action="GET" session="$session">
+                                            <command>
+                                                <body>${path}&amp;approverId=${approverId}</body>
+                                            </command>
+                                            <postProcessing>
+                                                <storeResponseAt>command_output</storeResponseAt>
+                                                <storeResponseText>true</storeResponseText>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulInvokeProperties" action="${path}&amp;approverId=${approverId}" action.inherit="false">
+                                                <authentication transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.AuthenticationProperties" authenticationType="Basic" authenticationType.inherit="false" user="$username" user.inherit="false" password.masked="true" password="CNDluA9EJ23wammPrSnywg==" password.inherit="false" acceptAllCertificates="true" acceptAllCertificates.inherit="false"/>
+                                            </applicationProperties>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="e7e9131b-f562-4d70-9908-7528262ada6e" action="else" useFieldsInCommand="false">
+                                    <nestedSteps>
+                                        <item guid="4d95162e-9cd2-42aa-9d11-49dbf794b63c" action="GET" session="$session">
+                                            <command>
+                                                <body>${path}</body>
+                                            </command>
+                                            <postProcessing>
+                                                <storeResponseAt>command_output</storeResponseAt>
+                                                <storeResponseText>true</storeResponseText>
+                                            </postProcessing>
+                                            <applicationProperties type="com.fnfr.svt.adapter.automation.tools.common.documents.TransferableDocumentObject" transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.restful.RESTfulInvokeProperties" action="${path}" action.inherit="false">
+                                                <authentication transferableToolId="com.fnfr.itest.applications.webservices.restful" transferableType="com.fnfr.itest.applications.webservices.properties.AuthenticationProperties" authenticationType="Basic" authenticationType.inherit="false" user="$username" user.inherit="false" password.masked="true" password="CNDluA9EJ23wammPrSnywg==" password.inherit="false" acceptAllCertificates="true" acceptAllCertificates.inherit="false"/>
+                                            </applicationProperties>
+                                        </item>
+                                    </nestedSteps>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="ee4c3a0d-d212-4d84-9227-f7f688bd0f66" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>Return response</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="f5a64b41-9920-4f27-a723-5c78323bf410" action="return">
+                            <command>
+                                <body>$command_output</body>
+                            </command>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="username">
+                    <defaultValue>spirent</defaultValue>
+                </item>
+                <item name="password">
+                    <defaultValue>spirent</defaultValue>
+                </item>
+                <item name="approverId">
+                    <description>string (optional) 
+if specified, only reservations assigned to an approver are returned</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="searchString">
+                    <description>string (optional) 
+if specified, only reservations whose names match the string are returned</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="startAfter">
+                    <description>number (optional) 
+timestamp of the beginning of custom period (if specified, only reservations that intersect with given period are returned)</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="endBefore">
+                    <description>number (optional) 
+timestamp of the ending of custom period (if specified, only reservations that intersect with given period are returned)</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="pageable">
+                    <description>Every collection marked as pageable supports the additional request parameters: offset and limit.
+Example: offset=1&amp;limit=11</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="filterable">
+                    <description>Used to filter.
+Example: name1::value1|name2::value2&amp;filter=name3::value3</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+            </arguments>
+        </item>
+        <item name="HasOptions" isPublic="true">
+            <steps>
+                <item guid="0a77e4ac-9617-4767-ba02-2252f67042b3" action="comment" useFieldsInCommand="false">
+                    <command>
+                        <body>this is a helper function that treats the case when the called procedure has options like: pageable, filterable, sortable</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="2c5921ff-5466-4dca-8b39-2f7325391a21" action="eval" useFieldsInCommand="false">
+                    <command>
+                        <body>set additional_options &quot;&quot;</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="7b170fc3-fcaf-4cc7-96dc-51d78cd22995" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$searchString!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="21b83f1a-18e9-4e6a-9e66-39f516106df3" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="bc6da500-c29c-487c-bf04-aafc3f05553f" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options${has_options}searchString=$searchString</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="06faa743-1123-471f-b596-923bb56675d9" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="c4cd5d79-fe35-45ee-9f77-cdab1e9f40fd" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$startAfter!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="a4427e19-3a1a-4293-8448-087d7f1abfb6" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="501c43a0-ab9f-4b4b-a1a9-7f104731d4d9" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options${has_options}startAfter=$startAfter</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="60623627-a5e7-48f5-b6e1-a2b2f96e549a" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="8d8ab792-f8bc-4292-b668-c87499a03b09" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$endBefore!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="33ab1ae1-141d-487b-9c6b-e703279802a3" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="3e986ca2-2d07-412a-b9ad-277398c99532" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options${has_options}endBefore=$endBefore</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="4df639d0-f147-4b12-b72e-d0af463832b6" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="d25b9a60-ee7c-4e23-9d1b-a34905d70d77" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$pageable!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="ca6194c2-87dc-4df2-be14-22adf16a2436" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="b889c7b8-ea41-43e6-8526-7c7e7f1c6676" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options$has_options$pageable</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="7d5a32c1-26d8-4554-9b9d-3723d7e6e314" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="e593616d-e486-4916-adb0-1253cf5c18f1" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$filterable!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="bc2ac789-70fb-49d3-96d4-0ceb0f5006d0" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="02d6db35-567e-44b5-9313-ec25fc769f31" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options${has_options}filter=$filterable</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="fcba379a-a52c-4599-a9de-eeeecf827af1" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="4aa4ec2e-9116-4738-8bc6-72d2ced89cdb" action="if" useFieldsInCommand="false">
+                    <command>
+                        <body>$sortable!=&quot;NULL&quot;</body>
+                    </command>
+                    <nestedSteps>
+                        <item guid="f079f0c9-9f93-4266-805e-0cc62fcc98d5" action="then" useFieldsInCommand="false">
+                            <nestedSteps>
+                                <item guid="ae9198b6-4c15-43cf-97b3-c20acb7a65ff" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set additional_options $additional_options$has_options$sortable</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                                <item guid="0355276f-c75c-4c5f-83fd-361193f38b85" action="eval" useFieldsInCommand="false">
+                                    <command>
+                                        <body>set has_options &quot;&amp;&quot;</body>
+                                    </command>
+                                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                                </item>
+                            </nestedSteps>
+                            <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                        </item>
+                    </nestedSteps>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+                <item guid="f518befd-f4f9-4b62-84a1-6eb27b695bd5" action="return">
+                    <command>
+                        <body>$additional_options</body>
+                    </command>
+                    <applicationProperties type="com.fnfr.svt.documents.EmptyPropertyGroup"/>
+                </item>
+            </steps>
+            <arguments>
+                <item name="has_options">
+                    <description>This is a helper variable, that will add either &quot;?&quot; or &quot;&amp;&quot; between the params</description>
+                    <defaultValue>$has_options</defaultValue>
+                    <isMandatory>true</isMandatory>
+                </item>
+                <item name="pageable">
+                    <description>Every collection marked as pageable supports the additional request parameters: offset and limit.
+Example: offset=1&amp;limit=11</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="filterable">
+                    <description>Used to filter.
+Example: filter=name1::value1|name2::value2&amp;filter=name3::value3</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="sortable">
+                    <description>Used to sort by some rules. Keywords used are sortBy and sortOrder. These are case sensitive.
+An example, where sorting is done by name descending: sortBy=name&amp;sortOrder=desc</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="searchString">
+                    <description>searchString string (optional) 
+if specified, only templates whose names, descriptions or tags match the string are returned
+Example: searchString=TestSetImage</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="startAfter">
+                    <description>number (optional) 
+timestamp of the beginning of custom period (if specified, only reservations that intersect with given period are returned)</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+                <item name="endBefore">
+                    <description>number (optional) 
+timestamp of the ending of custom period (if specified, only reservations that intersect with given period are returned)</description>
+                    <defaultValue>NULL</defaultValue>
+                </item>
+            </arguments>
+        </item>
+    </procedures>
+</testCase>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<SessionTemplate version="7.3.0.201902180253">
+    <baseApplication>com.fnfr.svt.applications.ssh</baseApplication>
+    <sessionProperties type="com.fnfr.svt.applications.ssh.documents.SSHProperties">
+        <TerminalProperties>
+            <prompts merge="true">
+                <item name="prompt1" MatchMethod="WILDCARD">
+                    <Content>root@* </Content>
+                </item>
+            </prompts>
+        </TerminalProperties>
+        <ipAddress inherit="false">$agentHost</ipAddress>
+        <user inherit="false">root</user>
+        <password inherit="false">iRyLc4KQj80=</password>
+    </sessionProperties>
+    <responseLibrary inherit="false">project://velocity-qa-assets/</responseLibrary>
+    <formMapLibrary inherit="false">project://velocity-qa-assets/</formMapLibrary>
+</SessionTemplate>

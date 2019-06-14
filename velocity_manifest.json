@@ -1,0 +1,221 @@
+{
+  "defaultData": {
+    "owner": "agrama",
+    "description": "This description is Legend, wait for it, Dary! Legendary!",
+    "hidden": false,
+    "timeout": 10,
+    "verdictMethod": "EXIT_CODE",
+    "commandSequence": [
+      "%file% %parameterNameValuePairList%"
+    ],
+    "executionMessages": {
+      "ok": ".*verified.*",
+      "info": ".*DEBUG.*|.*INFO.*",
+      "warning": ".*WARNING.*",
+      "error": ".*ERROR.*|.*CRITICAL.*"
+    }
+  },
+  "fileSets": [
+    {
+      "fileNameMatch": ".*performance\\.py",
+      "description": "Performance script which creates resources in Velocity and returns execution time and system performance",
+      "language": "python",
+      "commandSequence": [
+        "%file% %parameterNameValuePairList%"
+      ],
+      "parameters": [
+        {
+          "name": "velo",
+          "type": "TEXT",
+          "value": "vel-qa-automation",
+          "description": "ONLY VM name -> Without .spirenteng.com. Target Velocity to run performance"
+        },
+        {
+          "name": "resources",
+          "type": "INTEGER",
+          "value": "1000",
+          "description": "Number of resources to create. NrOfRes = topologies + 5*subtopologies"
+        },
+        {
+          "name": "abstractResources",
+          "type": "INTEGER",
+          "value": "1000",
+          "description": "Number of abstract resources to create."
+        },
+        {
+          "name": "topologies",
+          "type": "INTEGER",
+          "value": "500",
+          "description": "Number of topologies with 1 resource to create"
+        },
+        {
+          "name": "subtopologies",
+          "type": "INTEGER",
+          "value": "500",
+          "description": "Number of 5 layer subtopologies to create"
+        },
+        {
+          "name": "portGroupsResources",
+          "type": "INTEGER",
+          "value": "1000",
+          "description": "Number of resources with connected port groups to create"
+        },
+        {
+          "name": "vsphereClouds",
+          "type": "INTEGER",
+          "value": "50",
+          "description": "Number of vSphere Clouds to create"
+        },
+        {
+          "name": "openstackClouds",
+          "type": "INTEGER",
+          "value": "50",
+          "description": "Number of OpenStack clouds to create"
+        },
+        {
+          "name": "Abstract_Topology",
+          "type": "TEXT",
+          "value": "topologies/Abstract_Topology.yaml",
+          "description": "Path to abstract topology file"
+        },
+        {
+          "name": "LayerTopology",
+          "type": "TEXT",
+          "value": "topologies/5LayerTopology.yaml",
+          "description": "Path to abstract topology file"
+        }
+      ]
+    },
+    {
+      "fileNameMatch": ".*restRequests\\.py",
+      "description": "Send mail with execution result and details",
+      "language": "python"
+    },
+    {
+      "fileNameMatch": ".*initialize\\.sh",
+      "description": "Send mail with execution result and details",
+      "language": "bash",
+      "parameters": [
+        {
+          "name": "agent",
+          "type": "TEXT",
+          "value": "agent-qa-performance.spirenteng.com",
+          "description": "Agent to set up for performance automation"
+        },
+        {
+          "name": "user",
+          "type": "TEXT",
+          "value": "root",
+          "description": "Username of the agent to set up"
+        },
+        {
+          "name": "password",
+          "type": "TEXT",
+          "value": "admin",
+          "description": "Password of the agent to set up"
+        }
+      ]
+    },
+    {
+      "fileNameMatch": ".*concurrentLogins\\.py",
+      "description": "Script receives number of users to create, login and logout.Each thread creates number of given users",
+      "language": "python",
+      "commandSequence": [
+        "%file% %parameterNameValuePairList%"
+      ],
+      "parameters": [
+        {
+          "name": "velo",
+          "type": "TEXT",
+          "value": "vel-qa-automation",
+          "description": "ONLY VM name -> Without .spirenteng.com. Target Velocity to run login/logout"
+        },
+        {
+          "name": "ite",
+          "type": "TEXT",
+          "value": "ite-qa-automation",
+          "description": "ONLY VM name -> Without .spirenteng.com. Target ITE to create users"
+        },
+        {
+          "name": "users",
+          "type": "INTEGER",
+          "value": "50",
+          "description": "Number of users for each thread to create and authenticate"
+        },
+        {
+          "name": "threads",
+          "type": "INTEGER",
+          "value": "5",
+          "description": "Number of threads"
+        }
+      ]
+    },
+    {
+      "fileNameMatch": ".*changeBuild\\.ps1",
+      "description": "Script changes to last or given build a vel / ite / agent vm",
+      "language": "powershell",
+      "parameters": [
+        {
+          "name": "vcenter",
+          "type": "TEXT",
+          "value": "vcenter-ito-lab.spirenteng.com",
+          "description": "Full name of vCenter instance"
+        },
+        {
+          "name": "vel",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "Name of Velocity vm"
+        },
+        {
+          "name": "velbuild",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "Velocity Build number"
+        },
+        {
+          "name": "ite",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "Ite Vm name "
+        },
+        {
+          "name": "itebuild",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "ITE build number"
+        },
+        {
+          "name": "agent",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "Vel Agent vm name"
+        },
+        {
+          "name": "agentbuild",
+          "type": "TEXT",
+          "value": "Empty",
+          "description": "Vel Agent build number"
+        },
+        {
+          "name": "version",
+          "type": "TEXT",
+          "value": "7.3.0",
+          "description": "Release version"
+        },
+        {
+          "name": "user",
+          "type": "TEXT",
+          "value": "user",
+          "description": "Vcenter username"
+        },
+        {
+          "name": "password",
+          "type": "TEXT",
+          "value": "password",
+          "description": "vcenter password"
+        }
+      ]
+    }
+  ]
+}
