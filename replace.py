@@ -1,1 +1,1 @@
-print("Simple external script7")
+print("Simple external script8")
