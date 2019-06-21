@@ -1,0 +1,1 @@
+print("Simple external script9")

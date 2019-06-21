@@ -1,0 +1,69 @@
+{
+  "defaultData": {
+    "owner": "agrama",
+    "description": "This description is Legend, wait for it, Dary! Legendary!",
+    "hidden": false,
+    "timeout": 10,
+    "verdictMethod": "EXIT_CODE",
+    "commandSequence": [
+      "%file% %parameterNameValuePairList%"
+    ],
+    "executionMessages": {
+      "ok": ".*verified.*",
+      "info": ".*DEBUG.*|.*INFO.*",
+      "warning": ".*WARNING.*",
+      "error": ".*ERROR.*|.*CRITICAL.*"
+    }
+  },
+  "fileSets": [
+    {
+      "fileNameMatch": ".*\\.py",
+      "description": "Python scripts",
+      "language": "python",
+      "parameters": [
+        {
+          "name": "param1",
+          "type": "TEXT",
+          "value": "testParam",
+          "description": "parameter test"
+        }]
+    },
+    {
+      "fileNameMatch": ".*\\.sh",
+      "description": "Shell scripts",
+      "language": "bash",
+      "parameters": [
+        {
+          "name": "param1",
+          "type": "TEXT",
+          "value": "testParam",
+          "description": "parameter test"
+        }]
+    },
+    {
+      "fileNameMatch": ".*\\.ps1",
+      "description": "Powershell script",
+      "language": "powershell",
+      "parameters": [
+        {
+          "name": "param1",
+          "type": "TEXT",
+          "value": "testParam",
+          "description": "parameter test"
+        }]
+    },
+    {
+      "fileNameMatch": ".*\\.bat",
+      "description": "Batch script",
+      "language": "batch",
+      "parameters": [
+        {
+          "name": "param1",
+          "type": "TEXT",
+          "value": "testParam",
+          "description": "parameter test"
+        }]
+    }
+
+  ]
+}
