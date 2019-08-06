@@ -1,3 +1,6 @@
 #!/bin/bash
+param (
+    [string]$param = "Some parameter",
+ )
 
-echo "something"
+echo "Displaying$param"

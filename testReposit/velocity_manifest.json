@@ -5,6 +5,10 @@
     "hidden": false,
     "timeout": 10,
     "verdictMethod": "EXIT_CODE",
+    "requirements":[
+    {"name":"pool",
+    "value":"something"}
+    ],
     "commandSequence": [
       "%file% %parameterNameValuePairList%"
     ],
@@ -17,12 +21,32 @@
   },
   "fileSets": [
     {
+      "fileNameMatch": ".*swissArmyKnife\\.py",
+      "description": "Python scripts",
+      "language": "python",
+      "parameters": [
+        {
+          "name": "time",
+          "type": "TEXT",
+          "value": "10",
+          "description": "Time to sleep"
+        },
+        {
+          "name": "env",
+          "type": "BOOLEAN",
+          "value": true,
+          "description": "Time to sleep"
+        }
+
+    ]
+    },
+    {
       "fileNameMatch": ".*\\.py",
       "description": "Python scripts",
       "language": "python",
       "parameters": [
         {
-          "name": "param1",
+          "name": "param",
           "type": "TEXT",
           "value": "testParam",
           "description": "parameter test"
@@ -34,7 +58,7 @@
       "language": "bash",
       "parameters": [
         {
-          "name": "param1",
+          "name": "param",
           "type": "TEXT",
           "value": "testParam",
           "description": "parameter test"
