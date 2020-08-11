@@ -9,5 +9,6 @@
     <responseLibrary inherit="false">project://iwa_test/</responseLibrary>
     <formMapLibrary inherit="false">project://iwa_test/</formMapLibrary>
     <nickName>ssh_iwa</nickName>
+    <isReferenceProfile>true</isReferenceProfile>
     <language>Python</language>
 </SessionTemplate>
