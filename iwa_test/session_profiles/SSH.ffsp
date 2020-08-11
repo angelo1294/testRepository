@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<SessionTemplate version="8.3.0.202008040935">
+    <baseApplication>com.fnfr.svt.applications.ssh</baseApplication>
+    <sessionProperties type="com.fnfr.svt.applications.ssh.documents.SSHProperties">
+        <ipAddress inherit="false">vel-agrama-latest.spirenteng.com</ipAddress>
+        <user inherit="false">root</user>
+        <password inherit="false">iRyLc4KQj80=</password>
+    </sessionProperties>
+    <responseLibrary inherit="false">project://iwa_test/</responseLibrary>
+    <formMapLibrary inherit="false">project://iwa_test/</formMapLibrary>
+    <nickName>ssh_iwa</nickName>
+    <language>Python</language>
+</SessionTemplate>
