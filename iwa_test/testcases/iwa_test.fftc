@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<testCase version="8.3.0.202008040935">
+    <general>
+        <language>Python</language>
+    </general>
+    <procedures>
+        <item name="main"/>
+    </procedures>
+</testCase>
